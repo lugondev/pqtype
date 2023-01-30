@@ -15,8 +15,9 @@ type NullRawMessage struct {
 }
 
 // MarshalJSON Override the default JSON marshaling to use a string
-func (n *NullRawMessage) MarshalJSON() ([]byte, error) {
+func (n NullRawMessage) MarshalJSON() ([]byte, error) {
 	fmt.Println("MarshalJSON modified")
+
 	if !n.Valid {
 		return nil, nil
 	}
