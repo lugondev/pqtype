@@ -3,7 +3,6 @@ package pqtype
 import (
 	"database/sql/driver"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -17,18 +16,7 @@ type NullRawMessage struct {
 
 // MarshalJSON Override the default JSON marshaling to use a string
 func (n NullRawMessage) MarshalJSON() ([]byte, error) {
-	if !n.Valid {
-		return []byte("null"), nil
-	}
 	return n.RawMessage.MarshalJSON()
-}
-
-// UnmarshalJSON Override the default JSON unmarshaling to use a string
-func (n *NullRawMessage) UnmarshalJSON(data []byte) error {
-	if n.RawMessage == nil {
-		return errors.New("json.RawMessage: UnmarshalJSON on nil pointer")
-	}
-	return n.RawMessage.UnmarshalJSON(data)
 }
 
 // Scan implements the Scanner interface.
