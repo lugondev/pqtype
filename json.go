@@ -14,6 +14,14 @@ type NullRawMessage struct {
 	Valid      bool // Valid is true if RawMessage is not NULL
 }
 
+// MarshalJSON Override the default JSON marshaling to use a string
+func (n *NullRawMessage) MarshalJSON() ([]byte, error) {
+	if !n.Valid {
+		return nil, nil
+	}
+	return json.Marshal(n.RawMessage)
+}
+
 // Scan implements the Scanner interface.
 func (n *NullRawMessage) Scan(src interface{}) error {
 	if src == nil {
